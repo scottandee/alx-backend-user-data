@@ -108,13 +108,15 @@ def main():
     cursor = cnx.cursor()
     cursor.execute("SELECT name, email, phone, ssn, password FROM users;")
     logger = get_logger()
-    log_record = logging.LogRecord("my_logger", logging.INFO, None, None, cursor, None, None)
+    log_record = logging.LogRecord("my_logger", logging.INFO, None,
+                                   None, cursor, None, None)
     formatter = RedactingFormatter(fields=("email", "ssn", "password"))
     for r in cursor:
         print(r)
         formatter.format(log_record)
     cursor.close()
     cnx.close()
+
 
 if __name__ == "__main__":
     main()
