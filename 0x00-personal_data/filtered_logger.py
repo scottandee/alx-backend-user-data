@@ -57,30 +57,30 @@ class RedactingFormatter(logging.Formatter):
         return message
 
 
-# PII_FIELDS = ("ssn", "password", "phone", "name", "email")
+PII_FIELDS = ("ssn", "password", "phone", "name", "email")
 
 
-# def get_logger() -> logging.Logger:
-#     """get_logger
-#     A function that takes no arguments and returns a logging.Logger object.
-#     """
-#     logger = logging.getLogger("user_data")
+def get_logger() -> logging.Logger:
+    """get_logger
+    A function that takes no arguments and returns a logging.Logger object.
+    """
+    logger = logging.getLogger("user_data")
 
-#     # Set the logging level
-#     logger.setLevel(logging.INFO)
+    # Set the logging level
+    logger.setLevel(logging.INFO)
 
-#     # Create a stream handler
-#     stream_handler = logging.StreamHandler()
+    # Create a stream handler
+    stream_handler = logging.StreamHandler()
 
-#     # Set the logging level
-#     stream_handler.setLevel(logging.INFO)
+    # Set the logging level
+    stream_handler.setLevel(logging.INFO)
 
-#     # Set the logging formatter and add the stream handler
-#     # to the logger
-#     stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
-#     logger.addHandler(stream_handler)
+    # Set the logging formatter and add the stream handler
+    # to the logger
+    stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+    logger.addHandler(stream_handler)
 
-#     return logger
+    return logger
 
 
 # def get_db() -> mysql.connector.connection.MySQLConnection:
