@@ -28,7 +28,7 @@ def filter_datum(fields: List[str], redaction: str,
     """
     obfuscated_message = message
     for field in fields:
-        pattern = rf"(?<={field}=)[a-zA-Z0-9\/-@.]*(?={separator})"
+        pattern = rf"(?<={field}=)[a-zA-Z0-9\/.-]*(?={separator})"
         obfuscated_message = re.sub(pattern, redaction, obfuscated_message)
     return obfuscated_message
 
@@ -103,19 +103,12 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main():
-    """"""
+    """This function runs when the script is run"""
     cnx = get_db()
     cursor = cnx.cursor()
-    cursor.execute("SELECT name, email, phone, ssn, password FROM users;")
-    logger = get_logger()
-    log_record = logging.LogRecord("my_logger", logging.INFO, None,
-                                   None, cursor, None, None)
-    formatter = RedactingFormatter(fields=("email", "ssn", "password"))
-    for r in cursor:
-        print(r)
-        formatter.format(log_record)
-    cursor.close()
-    cnx.close()
+    cursor.execute("SELECT * FROM users;")
+    message = ""
+    log_record = []
 
 
 if __name__ == "__main__":
