@@ -57,59 +57,59 @@ class RedactingFormatter(logging.Formatter):
         return message
 
 
-PII_FIELDS = ("ssn", "password", "phone", "name", "email")
+# PII_FIELDS = ("ssn", "password", "phone", "name", "email")
 
 
-def get_logger() -> logging.Logger:
-    """get_logger
-    A function that takes no arguments and returns a logging.Logger object.
-    """
-    logger = logging.getLogger("user_data")
+# def get_logger() -> logging.Logger:
+#     """get_logger
+#     A function that takes no arguments and returns a logging.Logger object.
+#     """
+#     logger = logging.getLogger("user_data")
 
-    # Set the logging level
-    logger.setLevel(logging.INFO)
+#     # Set the logging level
+#     logger.setLevel(logging.INFO)
 
-    # Create a stream handler
-    stream_handler = logging.StreamHandler()
+#     # Create a stream handler
+#     stream_handler = logging.StreamHandler()
 
-    # Set the logging level
-    stream_handler.setLevel(logging.INFO)
+#     # Set the logging level
+#     stream_handler.setLevel(logging.INFO)
 
-    # Set the logging formatter and add the stream handler
-    # to the logger
-    stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
-    logger.addHandler(stream_handler)
+#     # Set the logging formatter and add the stream handler
+#     # to the logger
+#     stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+#     logger.addHandler(stream_handler)
 
-    return logger
-
-
-def get_db() -> mysql.connector.connection.MySQLConnection:
-    """get_db
-    This function connects to a secure database to read
-    a particular table. The database is protected by a
-    username and password that are set as environment
-    variables
-    """
-    db_username = os.environ.get("PERSONAL_DATA_DB_USERNAME")
-    db_host = os.environ.get("PERSONAL_DATA_DB_HOST")
-    db_name = os.environ.get("PERSONAL_DATA_DB_NAME")
-    password = os.environ.get("PERSONAL_DATA_DB_PASSWORD")
-
-    cnx = mysql.connector.connect(
-        user=db_username, host=db_host,
-        password=password, database=db_name
-    )
-    return cnx
+#     return logger
 
 
-def main():
-    """This function runs when the script is run"""
-    cnx = get_db()
-    cursor = cnx.cursor()
-    cursor.execute("SELECT * FROM users;")
-    message = ""
-    log_record = []
+# def get_db() -> mysql.connector.connection.MySQLConnection:
+#     """get_db
+#     This function connects to a secure database to read
+#     a particular table. The database is protected by a
+#     username and password that are set as environment
+#     variables
+#     """
+#     db_username = os.environ.get("PERSONAL_DATA_DB_USERNAME")
+#     db_host = os.environ.get("PERSONAL_DATA_DB_HOST")
+#     db_name = os.environ.get("PERSONAL_DATA_DB_NAME")
+#     password = os.environ.get("PERSONAL_DATA_DB_PASSWORD")
+
+#     cnx = mysql.connector.connect(
+#         user=db_username, host=db_host,
+#         password=password, database=db_name
+#     )
+#     return cnx
 
 
-if __name__ == "__main__":
-    main()
+# def main():
+#     """This function runs when the script is run"""
+#     cnx = get_db()
+#     cursor = cnx.cursor()
+#     cursor.execute("SELECT * FROM users;")
+#     message = ""
+#     log_record = []
+
+
+# if __name__ == "__main__":
+#     main()
