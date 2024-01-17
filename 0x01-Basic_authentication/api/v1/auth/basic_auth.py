@@ -85,6 +85,8 @@ class BasicAuth(Auth):
         """
         if user_email is None or user_pwd is None:
             return
+        if not isinstance(user_email, str) or not isinstance(user_pwd, str):
+            return
         user = User.search({"email": user_email})
         print(len(user))
         if len(user) == 0:
