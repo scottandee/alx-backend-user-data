@@ -67,5 +67,4 @@ if __name__ == "__main__":
         from api.v1.auth.auth import Auth
         auth = Auth()
 
-
     app.run(host=host, port=port, debug=True)
