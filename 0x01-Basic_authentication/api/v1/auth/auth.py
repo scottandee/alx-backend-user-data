@@ -49,3 +49,7 @@ class Auth:
           - None
         """
         return None
+
+
+class BasicAuth(Auth):
+    """Basic Authentication Class"""
