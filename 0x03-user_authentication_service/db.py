@@ -44,6 +44,4 @@ class DB:
         )
         self._session.add(user)
         self._session.commit()
-        user = self._session.query(User).filter_by(email=email).first()
-        self._session.close()
         return user
