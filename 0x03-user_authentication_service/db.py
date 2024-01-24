@@ -8,6 +8,8 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
+from typing import Dict
+
 from user import Base
 from user import User
 
@@ -42,9 +44,9 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **filter_param):
+    def find_user_by(self, **filter_param: Dict) -> User:
         """
-        Find a user by certain parameters
+        Find a user by a certain parameter
         """
         try:
             user = self._session.query(User).filter_by(**filter_param).first()
@@ -53,3 +55,19 @@ class DB:
         if not user:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **updates: Dict) -> None:
+        """
+        Update a user
+        """
+        user_attrs = [
+            "hashed_password", "email",
+            "session_id", "reset_token"
+        ]
+        for key in updates.keys():
+            if key not in user_attrs:
+                raise ValueError
+        user = self.find_user_by(id=user_id)
+        for key, value in updates.items():
+            setattr(user, key, value)
+        self._session.commit()
