@@ -106,7 +106,7 @@ class Auth:
         This returns the user with a particular session id
 
         Parameters:
-          @session_id: session id to be searched for
+        @session_id: session id to be searched for
 
         Returns:
           - The user if found
@@ -119,3 +119,16 @@ class Auth:
             return user
         except NoResultFound:
             return None
+
+    def destroy_session(self, user_id: id) -> None:
+        """destroy_session
+        This method destroys a session
+
+        Parameter:
+        @email: user's email
+
+        Returns:
+          - None
+        """
+        self._db.update_user(user_id, session_id=None)
+        return None
