@@ -22,10 +22,11 @@ def _hash_password(password: str) -> bytes:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode("utf-8"), salt)
 
-def _generate_uuid():
+
+def _generate_uuid() -> str:
     """ _generate_uuid
     This function generates a new uuid
-    
+
     Returns:
       - string representation of a new uuid
     """
@@ -80,3 +81,21 @@ class Auth:
         except NoResultFound:
             return False
         return False
+
+    def create_session(self, email: str) -> str:
+        """create_session
+        This function creates a new session id
+
+        Parameter:
+        @email: user's email
+
+        Returns:
+          - string representation of session id
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user_id=user.id, session_id=session_id)
+            return session_id
+        except NoResultFound:
+            return None
