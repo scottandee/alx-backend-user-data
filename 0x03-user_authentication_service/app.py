@@ -22,6 +22,10 @@ def welcome():
 def create_user():
     """POST /users
     Create a new user
+
+    Request Parameters:
+      - email in form field
+      - password in form field
     """
     email = request.form.get("email")
     password = request.form.get("password")
@@ -36,6 +40,10 @@ def create_user():
 def login():
     """ POST /sessions
     creates a new session for a user
+
+    Request Parameters:
+      - email in form field
+      - password in form field
     """
     email = request.form.get("email")
     password = request.form.get("password")
@@ -52,12 +60,31 @@ def login():
 def logout():
     """DELETE /sessions
     Deletes an already created session
+
+    Request Parameters:
+      - session_id cookie
     """
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user:
         AUTH.destroy_session(user.id)
         return redirect("/")
+    else:
+        abort(403)
+
+
+@app.route("/profile", strict_slashes=False)
+def profile():
+    """GET /profile
+    Returns the user email as JSON
+
+    Request Parameters:
+      - session_id cookie
+    """
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        return jsonify({"message": user.email})
     else:
         abort(403)
 
