@@ -125,10 +125,28 @@ class Auth:
         This method destroys a session
 
         Parameter:
-        @email: user's email
+        @email: user's id
 
         Returns:
           - None
         """
         self._db.update_user(user_id, session_id=None)
         return None
+
+    def get_reset_password_token(self, email: str) -> str:
+        """get_reset_password_token
+        This method
+
+        Parameter:
+        @email: user's email
+
+        Returns:
+          - reset token of user with the email
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            reset_token = str(uuid.uuid4())
+            self._db.update_user(user.id, reset_token=reset_token)
+            return reset_token
+        except NoResultFound:
+            raise ValueError
